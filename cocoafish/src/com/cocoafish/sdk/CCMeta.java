@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CCMeta {
+	private JSONObject json;
 	private String status;
 	private int code;
 	private String message;
@@ -32,7 +33,15 @@ public class CCMeta {
 		return pagination;
 	}
 	
+	public String toString() {
+		if (json != null)
+			return json.toString();
+		else
+			return "";
+	}
+	
 	public CCMeta(JSONObject jObject) throws CocoafishError {
+		json = jObject;
 		try {
 			status = jObject.getString("status").trim();
 		} catch (JSONException e1) {

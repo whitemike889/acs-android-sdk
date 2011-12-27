@@ -14,6 +14,11 @@ public class CCResponse {
 		return meta;
 	}
 	
+	public String getMetaString()
+	{
+		return meta.toString();
+	}
+	
 	public JSONObject getResponseData()
 	{
 		return responseData;
