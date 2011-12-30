@@ -45,7 +45,7 @@ public class CCMeta {
 		try {
 			status = jObject.getString("status").trim();
 		} catch (JSONException e1) {
-			throw new CocoafishError("Invalid Server Response: CCMeta: Missing stat");
+			throw new CocoafishError("Invalid Server Response: CCMeta: Missing status");
 		}
 		try {
 			code =  Integer.parseInt(jObject.getString("code").trim());
