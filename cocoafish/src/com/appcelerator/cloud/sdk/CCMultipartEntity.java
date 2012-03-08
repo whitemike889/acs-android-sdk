@@ -1,4 +1,4 @@
-package com.cocoafish.sdk;
+package com.appcelerator.cloud.sdk;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

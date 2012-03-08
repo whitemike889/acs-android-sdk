@@ -1,4 +1,4 @@
-package com.cocoafish.sdk;
+package com.appcelerator.cloud.sdk;
 
 /**
  * Encapsulation of a Cocoafish Error: a Cocoafish request that could not be

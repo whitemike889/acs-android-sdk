@@ -1,4 +1,4 @@
-package com.cocoafish.sdk;
+package com.appcelerator.cloud.sdk;
 
 public final class CCRequestMethod {
 

@@ -1,4 +1,4 @@
-package com.cocoafish.sdk;
+package com.appcelerator.cloud.sdk;
 
 import android.content.Context;
 import oauth.signpost.OAuthConsumer;
@@ -131,6 +131,10 @@ public class Cocoafish {
 		}
 	}
 	
+	public CCResponse sendRequest(String url, CCRequestMethod method, Map<String, Object> data) throws CocoafishError, IOException {
+		return sendRequest(url, method, data, true);
+	}
+	
 	/**
 	 * 
 	 * @param url
@@ -226,7 +230,9 @@ public class Cocoafish {
 
 			if (request == null)
 				throw new CocoafishError("The request method is invalid.");
-
+			
+			request.addHeader("Accept-Encoding", "gzip,deflate");
+			
 			if (fileMap != null && fileMap.size() > 0) {
 				CCMultipartEntity entity = new CCMultipartEntity();
 

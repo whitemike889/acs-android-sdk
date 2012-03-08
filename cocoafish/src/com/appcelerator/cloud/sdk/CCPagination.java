@@ -1,4 +1,4 @@
-package com.cocoafish.sdk;
+package com.appcelerator.cloud.sdk;
 
 import org.json.JSONException;
 import org.json.JSONObject;
