@@ -16,10 +16,10 @@ import org.apache.http.util.EntityUtils;
 import org.apache.james.mime4j.field.datetime.DateTime;
 import org.json.JSONObject;
 
-import com.cocoafish.sdk.CCRequestMethod;
-import com.cocoafish.sdk.CCResponse;
-import com.cocoafish.sdk.Cocoafish;
-import com.cocoafish.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.CCRequestMethod;
+import com.appcelerator.cloud.sdk.CCResponse;
+import com.appcelerator.cloud.sdk.Cocoafish;
+import com.appcelerator.cloud.sdk.CocoafishError;
 
 public class TestDriver {
 	public static final String APP_ID = "MAuUFCbReJmCAzelmEGIktMBlCmI2I7R";
@@ -94,7 +94,7 @@ public class TestDriver {
 		dataMap.put(USER_PASSWORD, password);
 		
 		try {
-			CCResponse response = sdk.sendRequest( URL_LOGIN_USER, CCRequestMethod.POST, dataMap, isSecure);
+			CCResponse response = sdk.sendRequest( URL_LOGIN_USER, CCRequestMethod.POST, dataMap);
 			System.out.println(response);
 		} catch (CocoafishError e) {
 			e.printStackTrace();

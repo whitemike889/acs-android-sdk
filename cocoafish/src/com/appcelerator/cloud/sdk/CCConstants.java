@@ -29,4 +29,8 @@ public class CCConstants {
 	public static final String UPDATED_AT = "updated_at";
 	public static final String CREATED_AT = "created_at";
 	public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+	
+	//Header
+	public static final String ACCEPT_ENCODING_HEADER = "Accept-Encoding";
+	public static final String GZIP = "gzip";
 }

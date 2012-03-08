@@ -28,10 +28,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cocoafish.sdk.CCRequestMethod;
-import com.cocoafish.sdk.CCResponse;
-import com.cocoafish.sdk.Cocoafish;
-import com.cocoafish.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.CCRequestMethod;
+import com.appcelerator.cloud.sdk.CCResponse;
+import com.appcelerator.cloud.sdk.Cocoafish;
+import com.appcelerator.cloud.sdk.CocoafishError;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;

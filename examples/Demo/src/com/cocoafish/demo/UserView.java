@@ -29,13 +29,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.cocoafish.sdk.CCConstants;
-import com.cocoafish.sdk.CCMeta;
-import com.cocoafish.sdk.CCRequestMethod;
-import com.cocoafish.sdk.CCResponse;
-import com.cocoafish.sdk.CCUser;
-import com.cocoafish.sdk.Cocoafish;
-import com.cocoafish.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.CCConstants;
+import com.appcelerator.cloud.sdk.CCMeta;
+import com.appcelerator.cloud.sdk.CCRequestMethod;
+import com.appcelerator.cloud.sdk.CCResponse;
+import com.appcelerator.cloud.sdk.CCUser;
+import com.appcelerator.cloud.sdk.Cocoafish;
+import com.appcelerator.cloud.sdk.CocoafishError;
 
 public class UserView extends Activity {
 

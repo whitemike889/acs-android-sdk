@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 
-import com.cocoafish.sdk.Cocoafish;
+import com.appcelerator.cloud.sdk.Cocoafish;
 import com.cocoafish.test.TestDriver;
 
 /**
@@ -48,6 +48,9 @@ public class DemoApplication extends Application {
 
     private static void initialize(String appComsumerKey, String appComsumerSecret, Context appContext ) {
 		sdk = new Cocoafish(appComsumerKey, appComsumerSecret, appContext);
+		
+		TestDriver d = new TestDriver();
+		d.testSDK();
 		session = new DemoSession();
 		
 	}

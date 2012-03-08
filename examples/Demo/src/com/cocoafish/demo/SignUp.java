@@ -12,8 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.cocoafish.sdk.CCRequestMethod;
-import com.cocoafish.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.CCRequestMethod;
+import com.appcelerator.cloud.sdk.CocoafishError;
 
 
 public class SignUp extends Activity {

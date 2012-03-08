@@ -62,6 +62,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 public class Cocoafish {
 	private String hostname = null;
@@ -231,7 +232,7 @@ public class Cocoafish {
 			if (request == null)
 				throw new CocoafishError("The request method is invalid.");
 			
-			request.addHeader("Accept-Encoding", "gzip,deflate");
+			request.addHeader(CCConstants.ACCEPT_ENCODING_HEADER, CCConstants.GZIP);
 			
 			if (fileMap != null && fileMap.size() > 0) {
 				CCMultipartEntity entity = new CCMultipartEntity();
@@ -287,6 +288,10 @@ public class Cocoafish {
 			if (entity != null) {
 				// A Simple JSON Response Read
 				InputStream instream = entity.getContent();
+				if (entity.getContentEncoding().getValue().contains(CCConstants.GZIP)) {
+					instream= new GZIPInputStream(instream);
+				}
+				
 				String result = convertStreamToString(instream);
 
 				// A Simple JSONObject Creation

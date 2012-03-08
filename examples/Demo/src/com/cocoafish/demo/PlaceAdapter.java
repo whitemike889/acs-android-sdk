@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.cocoafish.sdk.CCResponse;
+import com.appcelerator.cloud.sdk.CCResponse;
 
 // Adapter to show a list of checkins
 public class PlaceAdapter extends BaseAdapter  {
