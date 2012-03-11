@@ -21,10 +21,10 @@ import com.cocoafish.test.TestDriver;
  */
 public class DemoApplication extends Application {
 	// public static final String APP_ID = "yfqXvb0AClkrVE2mbgmqJmB17BEcEKzF"; // app id in cocoafish.org
-	public static final String APP_ID = "MAuUFCbReJmCAzelmEGIktMBlCmI2I7R";
-	public static final String FACEBOOK_APP_ID = "109836395704353";
-	public static final String APP_COMSUMER_KEY = "YrTFbGEWLhysLsb9QamiqrYWZFXyjgHZ";
-	public static final String APP_COMSUMER_SECRET = "ENrGw1tVVNGTC9wkjDxnpKQ4DAsFCGiX";
+	public static final String APP_ID = "8ivA6UgS8l29suqphNAJYT58V9NPwwZr";
+	public static final String FACEBOOK_APP_ID = "";
+	public static final String APP_COMSUMER_KEY = "mXIynNB5BDWR1WS5X2ABDA3P1U31Hk8o";
+	public static final String APP_COMSUMER_SECRET = "sfyc9Oozk0IABkouWDxF9IPzpBfbP1c0";
 	private static Cocoafish sdk = null;
 	private static DemoSession session = null;
 
@@ -43,14 +43,14 @@ public class DemoApplication extends Application {
         // Apply for a registration_id from c2dm server.
         // The registration_id should be stored in cocoafish's server,
         // afterwards, cocoafish can send push notification to this program.
-        //register4C2DM();
+        registerC2DM();
     }
 
     private static void initialize(String appComsumerKey, String appComsumerSecret, Context appContext ) {
 		sdk = new Cocoafish(appComsumerKey, appComsumerSecret, appContext);
 		
-		TestDriver d = new TestDriver();
-		d.testSDK();
+//		TestDriver d = new TestDriver();
+//		d.testSDK();
 		session = new DemoSession();
 		
 	}
@@ -66,15 +66,8 @@ public class DemoApplication extends Application {
 		return session;
 	}
     
-    /*
-	 * Implementing the C2DM push notification feature.
-	 */
-	public void register4C2DM()
-	{
-		Intent registrationIntent = new Intent("com.google.android.c2dm.intent.REGISTER");
-		registrationIntent.putExtra("app", PendingIntent.getBroadcast(this, 0, new Intent(), 0)); // boilerplate
-		registrationIntent.putExtra("sender", "jerry@cocoafish.com");
-		startService(registrationIntent);
+	public void registerC2DM(){
+		C2DMessaging.register(this, "paul@cocoafish.com");
 	}
 
 }

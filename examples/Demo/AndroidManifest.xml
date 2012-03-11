@@ -1,72 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.cocoafish.demo"
-      android:versionCode="1"
-      android:versionName="1.0">
-    <application android:name="DemoApplication" android:icon="@drawable/icon" android:label="@string/app_name">
-    	<!-- Setting for C2DM push notification -->
-    	<!-- Only C2DM servers can send messages for the app. If permission is not set - any other app can generate it --> 
-      	<receiver android:name=".C2DMRegistrationReceiver" 
-      		android:permission="com.google.android.c2dm.permission.SEND">
-          <!-- Receive the registration id -->
-          <intent-filter>
-              <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-              <category android:name="com.cocoafish.demo" />
-          </intent-filter>
-      	</receiver>
-    	
-    	<receiver android:name=".C2DMMessageReceiver"
-			android:permission="com.google.android.c2dm.permission.SEND">
-			<intent-filter>
-				<action android:name="com.google.android.c2dm.intent.RECEIVE"></action>
-				<category android:name="com.cocoafish.demo" />
-			</intent-filter>
-		</receiver>
-		
-    	<uses-library android:name="com.google.android.maps" />  
-    	
-    	<activity android:name=".TabView"
-                  android:label="@string/app_name">
-    		<intent-filter>
-            	<action android:name="android.intent.action.MAIN" />
+    package="com.cocoafish.demo"
+    android:versionCode="1"
+    android:versionName="1.0" >
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:name="DemoApplication" >
+
+        <!-- Setting for C2DM push notification -->
+        <!-- Only C2DM servers can send messages for the app. If permission is not set - any other app can generate it -->
+
+        <uses-library android:name="com.google.android.maps" />
+
+        <activity
+            android:label="@string/app_name"
+            android:name=".TabView" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-    	</activity>
-    	
-        <activity android:name=".Explore"
-                  android:label="@string/app_name">
         </activity>
-        
-        <activity android:name=".SignIn"
-       		 android:configChanges="keyboardHidden|orientation" 
-                 android:label="@string/app_name">
+        <activity
+            android:label="@string/app_name"
+            android:name=".Explore" >
         </activity>
-        
-        <activity android:name=".SignUp"
-                  android:label="@string/app_name">
+        <activity
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/app_name"
+            android:name=".SignIn" >
         </activity>
-        <activity android:name=".UserView"
-        android:configChanges="keyboardHidden|orientation" 
-                  android:label="@string/app_name">
+        <activity
+            android:label="@string/app_name"
+            android:name=".SignUp" >
         </activity>
-        <activity android:name=".PlaceView"
-                  android:label="@string/app_name">
+        <activity
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/app_name"
+            android:name=".UserView" >
         </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".PlaceView" >
+        </activity>
+
+        <service android:name=".C2DMReceiver" />
+
+        <receiver
+            android:name="com.cocoafish.demo.C2DMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter >
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.cocoafish.demo" />
+            </intent-filter>
+            <intent-filter >
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.cocoafish.demo" />
+            </intent-filter>
+        </receiver>
     </application>
- 
+
     <uses-sdk android:minSdkVersion="8" />
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
-    
+
     <!-- Setting for C2DM push notification -->
-    <!-- Only this application can receive the messages and registration result --> 
-   	<permission android:name="com.cocoafish.demo.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-   	<uses-permission android:name="com.cocoafish.demo.permission.C2D_MESSAGE" />
+    <!-- Only this application can receive the messages and registration result -->
+    <permission
+        android:name="com.cocoafish.demo.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
 
-  	<!-- This app has permission to register and receive message -->
-   	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.cocoafish.demo.permission.C2D_MESSAGE" />
 
-   	<!-- Send the registration id to the server -->
-   	<uses-permission android:name="android.permission.INTERNET" />
-    
-</manifest> 
+    <!-- This app has permission to register and receive message -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- Send the registration id to the server -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+</manifest>

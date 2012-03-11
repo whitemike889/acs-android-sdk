@@ -22,8 +22,8 @@ import com.appcelerator.cloud.sdk.Cocoafish;
 import com.appcelerator.cloud.sdk.CocoafishError;
 
 public class TestDriver {
-	public static final String APP_ID = "MAuUFCbReJmCAzelmEGIktMBlCmI2I7R";
-	public static final String FACEBOOK_APP_ID = "109836395704353";
+	public static final String APP_ID = "8ivA6UgS8l29suqphNAJYT58V9NPwwZr";
+	public static final String FACEBOOK_APP_ID = "";
 
 	// test data of the user
 	private static final String USER_PASSWORD = "password";
