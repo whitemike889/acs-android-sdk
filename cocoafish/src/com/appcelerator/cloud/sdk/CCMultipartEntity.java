@@ -39,9 +39,7 @@ public class CCMultipartEntity implements HttpEntity {
 
 	public void addPart(String name, FileBody fileBody) {
 		try {
-			this.addPart(name, fileBody.getFile().getName(),
-					new FileInputStream(fileBody.getFile()),
-					fileBody.getMimeType());
+			this.addPart(name, fileBody.getFile().getName(), new FileInputStream(fileBody.getFile()), fileBody.getMimeType());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -148,8 +146,7 @@ public class CCMultipartEntity implements HttpEntity {
 		return null;
 	}
 
-	public void consumeContent() throws IOException,
-			UnsupportedOperationException {
+	public void consumeContent() throws IOException, UnsupportedOperationException {
 		if (isStreaming()) {
 			throw new UnsupportedOperationException("Streaming entity does not implement #consumeContent()");
 		}

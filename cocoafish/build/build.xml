@@ -2,9 +2,9 @@
 	<description>Cocoafish Android SDK</description>
 	
 	<property environment="env" />
-	<fail unless="env.ANDROID_HOME" message="ANDROID_HOME needs to be defined as an environment variable or in the Ant build." />
-	<property name="ANDROID_HOME" location="${env.ANDROID_HOME}" />
-	<property name="android.jar.path" value="${ANDROID_HOME}/android.jar" />
+	<fail unless="env.ANDROID_SDK_HOME" message="ANDROID_SDK_HOME needs to be defined as an environment variable or in the Ant build." />
+	<property name="ANDROID_SDK_HOME" location="${env.ANDROID_SDK_HOME}" />
+	<property name="android.jar.path" value="${ANDROID_SDK_HOME}/android.jar" />
 	<property name="classes.dir" value="classes" />
 	<property file="${basedir}/build/build.properties"/>
 	
@@ -23,6 +23,7 @@
 	<target name="jar" depends="compile">
 		<jar jarfile="${output.dir}/${jar.name}">
 			<fileset dir="${classes.dir}" includes="**/*.*" />
+			<zipgroupfileset dir="push-lib" includes="*.jar"/>
 		</jar>
 		<antcall target="clean" />
 		<antcall target="copyToDemoApp" />

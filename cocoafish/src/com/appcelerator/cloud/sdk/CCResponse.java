@@ -8,29 +8,24 @@ public class CCResponse {
 	protected CCMeta meta;
 	protected JSONObject responseData;
 	protected CCResponse[] compoundResponses;
-	
-	public CCMeta getMeta()
-	{
+
+	public CCMeta getMeta() {
 		return meta;
 	}
-	
-	public String getMetaString()
-	{
+
+	public String getMetaString() {
 		return meta.toString();
 	}
-	
-	public JSONObject getResponseData()
-	{
+
+	public JSONObject getResponseData() {
 		return responseData;
 	}
-	
-	public CCResponse[] getCompoundResponses()
-	{
+
+	public CCResponse[] getCompoundResponses() {
 		return compoundResponses;
 	}
-	
-	public CCResponse(JSONObject jObject) throws CocoafishError 
-	{
+
+	public CCResponse(JSONObject jObject) throws CocoafishError {
 		try {
 			meta = new CCMeta(jObject.getJSONObject("meta"));
 		} catch (JSONException e1) {
@@ -44,15 +39,14 @@ public class CCResponse {
 			JSONArray responseArray = responseData.getJSONArray("responses");
 			if (responseArray.length() > 0) {
 				compoundResponses = new CCResponse[responseArray.length()];
-				for (int i = 0; i < responseArray.length(); i++) {  
+				for (int i = 0; i < responseArray.length(); i++) {
 					CCResponse tmpResponse = new CCResponse(responseArray.getJSONObject(i));
 					compoundResponses[i] = tmpResponse;
 				}
 			}
 		} catch (Exception e) {
-			
+
 		}
-		 
+
 	}
 }
-
