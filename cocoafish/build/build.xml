@@ -45,5 +45,10 @@
 				<include name="${jar.name}" />
 			</fileset>
 		</copy>
+		<copy todir="../examples/Push-Demo/libs">
+			<fileset dir="${output.dir}">
+				<include name="${jar.name}" />
+			</fileset>
+		</copy>
 	</target>
 </project>
