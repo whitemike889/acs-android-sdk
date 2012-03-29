@@ -1,4 +1,4 @@
-package com.cocoafish.demo;
+package com.appcelerator.cloud.demo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,7 +95,7 @@ public class PlaceView extends Activity {
 				e.printStackTrace();
 			}
 			
-			CCResponse response = response = sdk.sendRequest("checkins/create.json", CCRequestMethod.POST, data, false);
+			CCResponse response = sdk.sendRequest("checkins/create.json", CCRequestMethod.POST, data, false);
 
     		JSONObject responseJSON = response.getResponseData();
     		CCMeta meta = response.getMeta();

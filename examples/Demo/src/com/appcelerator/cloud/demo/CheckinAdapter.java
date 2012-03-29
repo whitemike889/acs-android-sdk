@@ -1,4 +1,4 @@
-package com.cocoafish.demo;
+package com.appcelerator.cloud.demo;
 
 import java.util.List;
 
@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.appcelerator.cloud.sdk.CCResponse;
 
 // Adapter to show a list of checkins
 public class CheckinAdapter extends BaseAdapter {
@@ -48,7 +46,7 @@ public class CheckinAdapter extends BaseAdapter {
         TextView checkinInfo = (TextView) convertView.findViewById(R.id.checkinInfo);
         if (isPlaceView) {
 			try {
-				JSONObject userJSON = userJSON = entry.getJSONObject("user");
+				JSONObject userJSON = entry.getJSONObject("user");
 				checkinInfo.setText( userJSON.getString("first_name") + " checked in");
 			} catch (JSONException e) {
 				e.printStackTrace();

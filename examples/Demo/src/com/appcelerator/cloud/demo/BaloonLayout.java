@@ -1,4 +1,4 @@
-package com.cocoafish.demo;
+package com.appcelerator.cloud.demo;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package com.cocoafish.demo;
+package com.appcelerator.cloud.demo;
 
 import java.util.HashMap;
 import java.util.Map;

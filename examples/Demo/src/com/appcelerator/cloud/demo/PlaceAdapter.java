@@ -1,4 +1,4 @@
-package com.cocoafish.demo;
+package com.appcelerator.cloud.demo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.appcelerator.cloud.sdk.CCResponse;
 
 // Adapter to show a list of checkins
 public class PlaceAdapter extends BaseAdapter  {

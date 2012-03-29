@@ -40,7 +40,7 @@
 	</target>
 	
 	<target name="copyToDemoApp">
-		<copy todir="../examples/Demo/lib">
+		<copy todir="../examples/Demo/libs">
 			<fileset dir="${output.dir}">
 				<include name="${jar.name}" />
 			</fileset>

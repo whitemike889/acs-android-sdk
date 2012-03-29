@@ -1,4 +1,4 @@
-package com.cocoafish.test;
+package com.appcelerator.com.cloud.demotest;
 
 import java.io.File;
 import java.io.IOException;
