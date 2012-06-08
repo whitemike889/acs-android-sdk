@@ -41,6 +41,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.appcelerator.cloud.sdk.oauth2.Cocoafish2;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,14 +68,14 @@ import java.util.zip.GZIPInputStream;
 
 public class Cocoafish {
 	private String hostname = null;
-	private String appKey = null;
+	protected String appKey = null;
 	private OAuthConsumer consumer = null;
 
 	private HttpClient httpClient = null;
 	private CookieStore cookieStore = null;
 	private Context curApplicationContext = null;
 
-	private CCUser currentUser = null;
+	protected CCUser currentUser = null;
 
 	public Cocoafish(String appKey) {
 		this(appKey, (Context) null);
@@ -195,6 +197,18 @@ public class Cocoafish {
 		if (appKey != null) {
 			requestUrl.append(CCConstants.KEY);
 			requestUrl.append(appKey);
+		}
+		
+		if(Cocoafish2.class.isInstance(this)) {
+			Cocoafish2 sdk = (Cocoafish2)this;
+			if (requestUrl.toString().indexOf("?") > 0) {
+				requestUrl.append("&");
+			} else {
+				requestUrl.append("?");
+			}
+			requestUrl.append(CCConstants.ACCESS_TOKEN);
+			requestUrl.append("=");
+			requestUrl.append(sdk.getAccessToken());
 		}
 
 		if (method == CCRequestMethod.GET || method == CCRequestMethod.DELETE) {
