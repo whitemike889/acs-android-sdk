@@ -201,14 +201,16 @@ public class Cocoafish {
 		
 		if(Cocoafish2.class.isInstance(this)) {
 			Cocoafish2 sdk = (Cocoafish2)this;
-			if (requestUrl.toString().indexOf("?") > 0) {
-				requestUrl.append("&");
-			} else {
-				requestUrl.append("?");
+			if (sdk.getAccessToken() != null) {
+				if (requestUrl.toString().indexOf("?") > 0) {
+					requestUrl.append("&");
+				} else {
+					requestUrl.append("?");
+				}
+				requestUrl.append(CCConstants.ACCESS_TOKEN);
+				requestUrl.append("=");
+				requestUrl.append(sdk.getAccessToken());
 			}
-			requestUrl.append(CCConstants.ACCESS_TOKEN);
-			requestUrl.append("=");
-			requestUrl.append(sdk.getAccessToken());
 		}
 
 		if (method == CCRequestMethod.GET || method == CCRequestMethod.DELETE) {
