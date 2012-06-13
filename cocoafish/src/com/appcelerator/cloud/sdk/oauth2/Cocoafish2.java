@@ -38,13 +38,12 @@ public class Cocoafish2 extends Cocoafish {
     public static final String CANCEL_URI = "acsconnect://cancel";
     public static final String ACCESS_TOKEN = "access_token";
     public static final String ACCESS_TOKEN_EXPIRES_IN = "expires_in";
-
+    public static final String ACTION_LOGIN = "oauth";
+    public static final String ACTION_SINGUP = "signup";
 //    public static final int FORCE_DIALOG_AUTH = -1;
     
     private String authHost = CCConstants.DEFAULT_AUTH_HOST;
     
-    public static final String ACTION_LOGIN = "oauth";
-    public static final String ACTION_SINGUP = "signup";
 
 	private String clientId = null;			//OAuth consumer key
     private String accessToken = null;
@@ -309,9 +308,6 @@ public class Cocoafish2 extends Cocoafish {
      */
     public String logout(Context context, boolean useSecure) throws MalformedURLException, IOException {
 
-    	//TODO do we really need it?
-    	Util.clearCookies(context);
-  
     	StringBuffer endpoint = null;
 		if (useSecure) {
 			endpoint = new StringBuffer(CCConstants.HTTPS_HEAD);
@@ -334,6 +330,7 @@ public class Cocoafish2 extends Cocoafish {
             return null;
         } else {
             String response = request(endpoint.toString(), parameters, "GET");
+            super.clearSessionInfo();
             setAccessToken(null);
             setAccessExpires(0);
             setAppKey(null);
