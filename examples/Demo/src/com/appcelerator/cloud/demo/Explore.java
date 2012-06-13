@@ -230,7 +230,7 @@ public class Explore extends MapActivity {
 			List<JSONObject> places = new ArrayList<JSONObject>();
 			CCResponse  result = null;
 			try {
-				result = sdk.sendRequest("places/search.json", CCRequestMethod.GET, null, false);
+				result = sdk.sendRequest("places/query.json", CCRequestMethod.GET, null, false);
 				JSONObject resJson = result.getResponseData();
 				JSONArray array = resJson.getJSONArray("places");
 				for( int i = 0 ; i < array.length() ; i++ ){

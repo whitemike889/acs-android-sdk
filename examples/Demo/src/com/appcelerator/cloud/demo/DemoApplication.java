@@ -5,14 +5,15 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.appcelerator.cloud.sdk.Cocoafish;
+import com.appcelerator.cloud.sdk.oauth2.Cocoafish2;
 
 public class DemoApplication extends Application {
 	// TODO Update your own app_id here
-	public static final String APP_ID = "ldfIk3IPNtcOY5BBKvolherePQcCzNUs";
+	public static final String APP_ID = "NIE4y3ax2UnmiWtkpi3Rbr9RChBvit2a";
 	public static final String FACEBOOK_APP_ID = "";
 	// TODO Update your own oAuth account here
-	public static final String APP_CONSUMER_KEY = "uHibgpwMr0gYgZXMm67UHZNij48W1WXz";
-	public static final String APP_CONSUMER_SECRET = "brggfwU0yoLGlLhDew8hqFiPfMQEV00s";
+	public static final String APP_CONSUMER_KEY = "VGJSVgFHs7FaOcgcvMWMAGe6bwNpHBfq";
+	public static final String APP_CONSUMER_SECRET = "ZDkLBzlL28ISUngLgjwuUuMdMqF3Jrm5";
 	private static Cocoafish sdk = null;
 	private static DemoSession session = null;
 
@@ -25,7 +26,10 @@ public class DemoApplication extends Application {
 	}
 
 	private static void initialize(String appComsumerKey, String appComsumerSecret, Context appContext) {
-		sdk = new Cocoafish(appComsumerKey, appComsumerSecret, appContext);
+		//sdk = new Cocoafish(appComsumerKey, appComsumerSecret, appContext, "192.168.1.110:3000/v1/");
+		sdk = new Cocoafish2(appComsumerKey, appComsumerSecret, appContext, "192.168.1.110:3000/v1/");
+        ((Cocoafish2)sdk).setDlgCustomizer(new MyDlgCustomizer());
+
 		session = new DemoSession();
 	}
 
