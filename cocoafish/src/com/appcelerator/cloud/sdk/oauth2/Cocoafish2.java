@@ -17,7 +17,6 @@ import android.util.Log;
 import android.webkit.CookieSyncManager;
 import android.widget.Toast;
 
-import com.appcelerator.cloud.demo.Connect;
 import com.appcelerator.cloud.sdk.CCConstants;
 import com.appcelerator.cloud.sdk.CCMeta;
 import com.appcelerator.cloud.sdk.CCRequestMethod;
@@ -40,19 +39,12 @@ public class Cocoafish2 extends Cocoafish {
     public static final String ACCESS_TOKEN_EXPIRES_IN = "expires_in";
     public static final String ACTION_LOGIN = "oauth";
     public static final String ACTION_SINGUP = "signup";
-//    public static final int FORCE_DIALOG_AUTH = -1;
     
     private String authHost = CCConstants.DEFAULT_AUTH_HOST;
-    
-
 	private String clientId = null;			//OAuth consumer key
     private String accessToken = null;
     private long accessExpires = 0;
-
-//    private Activity mAuthActivity;
-//    private String[] mAuthPermissions;
     private DialogListener customDialogListener;
-    
     private DlgCustomizer dlgCustomizer; 
     
 
@@ -74,7 +66,6 @@ public class Cocoafish2 extends Cocoafish {
 	public Cocoafish2(String consumerKey, Context context) {
 		super(null, context); //construct Cocoafish object with null appKey
 		this.clientId = consumerKey;
-		//super.curApplicationContext = context;
 	}
 
 	/**
@@ -86,8 +77,6 @@ public class Cocoafish2 extends Cocoafish {
 	public Cocoafish2(String consumerKey, Context context, String hostname) {
 		super(null, context, hostname); //construct Cocoafish object with null appKey
 		this.clientId = consumerKey;
-		//super.curApplicationContext = context;
-		//super.hostname = hostname;
 	}
 
 	public Cocoafish2(String consumerKey, String consumerSecret) {
@@ -104,11 +93,6 @@ public class Cocoafish2 extends Cocoafish {
 		super(consumerKey, consumerSecret, context, hostname);
 		this.clientId = consumerKey;
 	}
-    
-    
-    
-    
-    
     
     
     
@@ -142,9 +126,6 @@ public class Cocoafish2 extends Cocoafish {
         startDialogAuth(activity, action, permissions, useSecure);
     }
 
-    
-    //public void singup(Activity activity, )
-    
     
 	private void startDialogAuth(Activity activity, String action, String[] permissions, boolean useSecure) {
 		final String method = "Cocoafish2.startDialogAuth";
@@ -203,96 +184,21 @@ public class Cocoafish2 extends Cocoafish {
 		if (response != null && response.getMeta() != null) {
 			CCMeta meta = response.getMeta();
 			if (meta.getCode() == CCConstants.SUCCESS_CODE) {
-//				if (CCConstants.LOGIN_METHOD.equals(meta.getMethod()) || CCConstants.CREATE_METHOD.equals(meta.getMethod())) {
-					try {
-						if (response.getResponseData() != null) {
-							JSONArray array = response.getResponseData().getJSONArray(CCConstants.USERS);
-							if (array != null && array.length() > 0) {
-								currentUser = new CCUser(array.getJSONObject(0));
-								saveSessionInfo();
-							}
+				try {
+					if (response.getResponseData() != null) {
+						JSONArray array = response.getResponseData().getJSONArray(CCConstants.USERS);
+						if (array != null && array.length() > 0) {
+							currentUser = new CCUser(array.getJSONObject(0));
+							saveSessionInfo();
 						}
-					} catch (JSONException e) {
-						e.printStackTrace();
 					}
-//				} else if (CCConstants.LOGOUT_METHOD.equals(meta.getMethod())) {
-//					clearSessionInfo();
-//				}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
-    /**
-     * IMPORTANT: This method must be invoked at the top of the calling
-     * activity's onActivityResult() function or authentication will
-     * not function properly!
-     *
-     * If your calling activity does not currently implement onActivityResult(),
-     * you must implement it and include a call to this method if you intend to
-     * use the authorize() method in this SDK.
-     *
-     * For more information, see
-     * http://developer.android.com/reference/android/app/
-     *   Activity.html#onActivityResult(int, int, android.content.Intent)
-     *   
-     * TODO how is it used? may not be needed.
-     */
-    public void authorizeCallback(int requestCode, int resultCode, Intent data) {
-    	
-        //if (requestCode == authActivityCode) {
-
-            // Successfully redirected.
-            if (resultCode == Activity.RESULT_OK) {
-
-                // Check OAuth 2.0/2.10 error code.
-                String error = data.getStringExtra("error");
-                if (error == null) {
-                    error = data.getStringExtra("error_type");
-                }
-
-                // A error occurred.
-                if (error != null) {
-                    if (error.equals("access_denied") || error.equals("OAuthAccessDeniedException")) {
-                        Log.d("Cocoafish-authorize", "Login canceled by user.");
-                        customDialogListener.onCancel();
-                    } else {
-                        Log.d("Cocoafish-authorize", "Login failed: " + error);
-                        customDialogListener.onCocoafish2Error(new Cocoafish2Error(error));
-                    }
-
-                // No errors.
-                } else {
-                    setAccessToken(data.getStringExtra(ACCESS_TOKEN));
-                    setAccessExpiresIn(data.getStringExtra(ACCESS_TOKEN_EXPIRES_IN));
-                    if (isSessionValid()) {
-                        Log.d("Cocoafish-authorize",
-                                "Login Success! access_token=" + getAccessToken() + " expires=" + getAccessExpires());
-                        customDialogListener.onComplete(data.getExtras());
-                    } else {
-                    	customDialogListener.onCocoafish2Error(new Cocoafish2Error("Failed to receive access token."));
-                    }
-                }
-
-            // An error occurred before we could be redirected.
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-
-                // An Android error occured.
-                if (data != null) {
-                    Log.d("Cocoafish-authorize", "Login failed: " + data.getStringExtra("error"));
-                    customDialogListener.onError(
-                            new DialogError(
-                                    data.getStringExtra("error"),
-                                    data.getIntExtra("error_code", -1),
-                                    data.getStringExtra("failing_url")));
-
-                // User pressed the 'back' button.
-                } else {
-                    Log.d("Cocoafish-authorize", "Login canceled by user.");
-                    customDialogListener.onCancel();
-                }
-            }
-        //}
-    }
 
     /**
      * Invalidate the current user session by removing the access token in memory, clearing the browser cookie, and invalidating 
@@ -377,8 +283,6 @@ public class Cocoafish2 extends Cocoafish {
 			endpoint.append("/users/sign_up");
 		}
 
-//      parameters.putString("type", "user_agent");
-        
         if (isSessionValid()) {
             parameters.putString(ACCESS_TOKEN, getAccessToken());
         }
@@ -505,7 +409,7 @@ public class Cocoafish2 extends Cocoafish {
         public void onComplete(Bundle values);
 
         /**
-         * Called when a responds to a dialog with an error.
+         * Called when a response to a dialog with an error.
          *
          * Executed by the thread that initiated the dialog.
          *

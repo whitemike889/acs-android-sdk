@@ -194,7 +194,7 @@ public class Cocoafish {
 		}
 		requestUrl.append(url);
 
-		if (appKey != null) {
+		if (appKey != null && consumer == null) {
 			requestUrl.append(CCConstants.KEY);
 			requestUrl.append(appKey);
 		}

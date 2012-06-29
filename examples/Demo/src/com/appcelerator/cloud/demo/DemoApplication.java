@@ -25,11 +25,19 @@ public class DemoApplication extends Application {
 		initialize(APP_CONSUMER_KEY, APP_CONSUMER_SECRET, getApplicationContext());
 	}
 
-	private static void initialize(String appComsumerKey, String appComsumerSecret, Context appContext) {
-		//sdk = new Cocoafish(appComsumerKey, appComsumerSecret, appContext, "192.168.1.110:3000/v1/");
-		sdk = new Cocoafish2(appComsumerKey, appComsumerSecret, appContext, "192.168.1.110:3000/v1/");
-        ((Cocoafish2)sdk).setDlgCustomizer(new MyDlgCustomizer());
-
+	private static void initialize(String appConsumerKey, String appConsumerSecret, Context appContext) {
+		//sdk = new Cocoafish(appConsumerKey, appConsumerSecret, appContext, "192.168.1.110:3000/v1/");
+		
+		//Use Cocoafish2 for authentication/authorization with Authorization Server
+		sdk = new Cocoafish2(appConsumerKey, appConsumerSecret, appContext, "192.168.1.113:3000/v1/");
+		
+		//Use cocoafish2 but without OAuth secret specified
+		//sdk = new Cocoafish2(appConsumerKey, appContext, "192.168.1.113:3000/v1/");
+		//if OAuth secret is not provided app key is required.
+		//((Cocoafish2)sdk).setAppKey(APP_ID);
+        
+		((Cocoafish2)sdk).setDlgCustomizer(new MyDlgCustomizer());
+        ((Cocoafish2)sdk).setAuthHost("192.168.1.113:3001");
 		session = new DemoSession();
 	}
 
