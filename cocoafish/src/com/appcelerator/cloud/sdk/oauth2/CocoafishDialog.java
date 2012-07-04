@@ -121,7 +121,7 @@ public class CocoafishDialog extends Dialog {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        	String method = "Cocoafish2Dialog.Cocoafish2WebViewClient.shouldOverrideUrlLoading";
+        	String method = "CocoafishDialog.CocoafishWebViewClient.shouldOverrideUrlLoading";
             
         	Log.d(method, "About to load: " + url);
 
@@ -163,7 +163,7 @@ public class CocoafishDialog extends Dialog {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        	String method = "Cocoafish2Dialog.CocoafishOAuth2WebViewClient.onPageStarted";
+        	String method = "CocoafishDialog.CocoafishWebViewClient.onPageStarted";
             Log.d(method, "Webview loading URL: " + url);
             super.onPageStarted(view, url, favicon);
             spinner.show();
@@ -181,7 +181,7 @@ public class CocoafishDialog extends Dialog {
         
         @Override  
         public void onPageFinished(WebView view, String url) {  
-        	String method = "Cocoafish2Dialog.CocoafishOAuth2WebViewClient.onPageFinished";
+        	String method = "CocoafishDialog.CocoafishWebViewClient.onPageFinished";
             super.onPageFinished(view, url);  
 			if (view != null && view.getUrl() != null)
 				Log.d(method, view.getUrl());

@@ -343,8 +343,8 @@ public class UserView extends Activity {
 //				Toast.makeText( Connect.this, "Thank you for Logging In, " + firstName + " " + lastName + "!", Toast.LENGTH_SHORT).show();
 
 				//save your access token here
-//				Cocoafish2 sdk2 = (Cocoafish2)sdk;
-//				sdk2.getAccessToken();
+				//sdk.getAccessToken();
+				//sdk.getAccessExpires();
 				
 				showUserView();
 				

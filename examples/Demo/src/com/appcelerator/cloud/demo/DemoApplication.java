@@ -38,8 +38,6 @@ public class DemoApplication extends Application {
 //		//Use 3-legged OAuth but without OAuth secret specified - the 'key' argument expects OAuth key
 //		sdk = new Cocoafish(appConsumerKey, appContext, "192.168.1.113:3000/v1/");
 //		sdk.useThreeLegged(true);
-//		//if OAuth secret is not provided app key is required.
-//		sdk.setAppKey(APP_ID);
         
 		sdk.setDlgCustomizer(new MyDlgCustomizer());
         sdk.setAuthHost("192.168.1.113:3001");

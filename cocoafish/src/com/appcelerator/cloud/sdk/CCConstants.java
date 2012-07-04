@@ -8,6 +8,7 @@ public class CCConstants {
 	public final static String DEFAULT_AUTH_HOST = "192.168.1.110:3001";
 	public final static String KEY = "?key=";
 	public final static String ACCESS_TOKEN = "access_token";
+	public final static String OAUTH_KEY = "oauth_key";
 	public final static String ENCODING_UTF8 = "UTF-8";
 
 	// Cookies

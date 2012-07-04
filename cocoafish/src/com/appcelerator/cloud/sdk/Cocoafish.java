@@ -256,6 +256,13 @@ public class Cocoafish {
 				requestUrl.append("=");
 				requestUrl.append(this.accessToken);
 			}
+			//3-legged: while no app key, if request couldn't be signed oauth_key is required for app authentication
+			if (consumer == null) {
+				requestUrl.append("&");
+				requestUrl.append(CCConstants.OAUTH_KEY);
+				requestUrl.append("=");
+				requestUrl.append(this.oauthKey);
+			}
 		}
 
 		if (method == CCRequestMethod.GET || method == CCRequestMethod.DELETE) {
@@ -522,7 +529,7 @@ public class Cocoafish {
     }
     
 	private void startDialogAuth(Activity activity, String action, String[] permissions, boolean useSecure) {
-		final String method = "Cocoafish2.startDialogAuth";
+		final String method = "Cocoafish.startDialogAuth";
 		
         Bundle params = new Bundle();
         if (permissions.length > 0) {
@@ -538,7 +545,6 @@ public class Cocoafish {
                 CookieSyncManager.getInstance().sync();
                 setAccessToken(values.getString(ACCESS_TOKEN));
                 setAccessExpiresIn(values.getString(ACCESS_TOKEN_EXPIRES_IN));
-                setAppKey(values.getString("key")); //see method setAppKey for note
                 if (isSessionValid()) {
                     Log.d(method, "Login Success! access_token=" + getAccessToken() + " expires=" + getAccessExpires());
                     //made a call to get user information to satisfy Cocoafish
@@ -635,7 +641,6 @@ public class Cocoafish {
             this.clearSessionInfo();
             setAccessToken(null);
             setAccessExpires(0);
-            setAppKey(null);
             String response;
 			try {
 				response = request(endpoint.toString(), parameters, "GET");
