@@ -16,6 +16,8 @@ import java.net.URLEncoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.appcelerator.cloud.sdk.CocoafishError;
+
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.Bundle;
@@ -211,13 +213,13 @@ public final class Util {
 
 
     public static JSONObject parseJson(String response)
-          throws JSONException, Cocoafish2Error {
+          throws JSONException, CocoafishError {     
         // Edge case: when sending a POST request to /[post_id]/likes
         // the return value is 'true' or 'false'. Unfortunately
         // these values cause the JSONObject constructor to throw
         // an exception.
         if (response.equals("false")) {
-            throw new Cocoafish2Error("request failed");
+            throw new CocoafishError("request failed");
         }
         if (response.equals("true")) {
             response = "{value : true}";
@@ -228,22 +230,22 @@ public final class Util {
         // they depend on the method and endpoint
         if (json.has("error")) {
             JSONObject error = json.getJSONObject("error");
-            throw new Cocoafish2Error(
+            throw new CocoafishError(
                     error.getString("message"), error.getString("type"), 0);
         }
         if (json.has("error_code") && json.has("error_msg")) {
-            throw new Cocoafish2Error(json.getString("error_msg"), "",
+            throw new CocoafishError(json.getString("error_msg"), "",
                     Integer.parseInt(json.getString("error_code")));
         }
         if (json.has("error_code")) {
-            throw new Cocoafish2Error("request failed", "",
+            throw new CocoafishError("request failed", "",
                     Integer.parseInt(json.getString("error_code")));
         }
         if (json.has("error_msg")) {
-            throw new Cocoafish2Error(json.getString("error_msg"));
+            throw new CocoafishError(json.getString("error_msg"));
         }
         if (json.has("error_reason")) {
-            throw new Cocoafish2Error(json.getString("error_reason"));
+            throw new CocoafishError(json.getString("error_reason"));
         }
         return json;
     }

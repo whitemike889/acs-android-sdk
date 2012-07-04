@@ -5,7 +5,6 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.appcelerator.cloud.sdk.Cocoafish;
-import com.appcelerator.cloud.sdk.oauth2.Cocoafish2;
 
 public class DemoApplication extends Application {
 	// TODO Update your own app_id here
@@ -26,18 +25,24 @@ public class DemoApplication extends Application {
 	}
 
 	private static void initialize(String appConsumerKey, String appConsumerSecret, Context appContext) {
-		//sdk = new Cocoafish(appConsumerKey, appConsumerSecret, appContext, "192.168.1.110:3000/v1/");
+//		//Pass app key to the 'key' argument
+//		sdk = new Cocoafish(APP_ID, appContext, "192.168.1.113:3000/v1/");
+//		//Pass both oauth key and secret
+//		sdk = new Cocoafish(appConsumerKey, appConsumerSecret, appContext, "192.168.1.113:3000/v1/");
 		
-		//Use Cocoafish2 for authentication/authorization with Authorization Server
-		sdk = new Cocoafish2(appConsumerKey, appConsumerSecret, appContext, "192.168.1.113:3000/v1/");
+		//Pass both oauth key and secret and use 3-legged oauth
+		sdk = new Cocoafish(appConsumerKey, appConsumerSecret, appContext, "192.168.1.113:3000/v1/");
+		//for authentication/authorization with Authorization Server
+		sdk.useThreeLegged(true);
 		
-		//Use cocoafish2 but without OAuth secret specified
-		//sdk = new Cocoafish2(appConsumerKey, appContext, "192.168.1.113:3000/v1/");
-		//if OAuth secret is not provided app key is required.
-		//((Cocoafish2)sdk).setAppKey(APP_ID);
+//		//Use 3-legged OAuth but without OAuth secret specified - the 'key' argument expects OAuth key
+//		sdk = new Cocoafish(appConsumerKey, appContext, "192.168.1.113:3000/v1/");
+//		sdk.useThreeLegged(true);
+//		//if OAuth secret is not provided app key is required.
+//		sdk.setAppKey(APP_ID);
         
-		((Cocoafish2)sdk).setDlgCustomizer(new MyDlgCustomizer());
-        ((Cocoafish2)sdk).setAuthHost("192.168.1.113:3001");
+		sdk.setDlgCustomizer(new MyDlgCustomizer());
+        sdk.setAuthHost("192.168.1.113:3001");
 		session = new DemoSession();
 	}
 

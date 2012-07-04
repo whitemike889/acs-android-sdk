@@ -20,9 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appcelerator.cloud.demo.R;
-import com.appcelerator.cloud.sdk.oauth2.Cocoafish2.DialogListener;
+import com.appcelerator.cloud.sdk.Cocoafish;
+import com.appcelerator.cloud.sdk.CocoafishError;
 
-public class Cocoafish2Dialog extends Dialog {
+public class CocoafishDialog extends Dialog {
 
     static final int FB_BLUE = 0xFF6D84B4;
     static final float[] DIMENSIONS_LANDSCAPE = {460, 260};
@@ -41,7 +42,7 @@ public class Cocoafish2Dialog extends Dialog {
     Context context = null;
     private DlgCustomizer dlgCustomizer;
 
-    public Cocoafish2Dialog(Context _context, String url, DialogListener listener, DlgCustomizer dlgCustomizer) {
+    public CocoafishDialog(Context _context, String url, DialogListener listener, DlgCustomizer dlgCustomizer) {
         super(_context);
         this.context = _context;
         this.url = url;
@@ -106,7 +107,7 @@ public class Cocoafish2Dialog extends Dialog {
         webView = new WebView(getContext());
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
-        webView.setWebViewClient(new Cocoafish2WebViewClient());
+        webView.setWebViewClient(new CocoafishWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
         webView.setLayoutParams(FILL);
@@ -116,7 +117,7 @@ public class Cocoafish2Dialog extends Dialog {
     
     
     
-    private class Cocoafish2WebViewClient extends WebViewClient {
+    private class CocoafishWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -124,7 +125,7 @@ public class Cocoafish2Dialog extends Dialog {
             
         	Log.d(method, "About to load: " + url);
 
-            if (url.startsWith(Cocoafish2.REDIRECT_URI)) {
+            if (url.startsWith(Cocoafish.REDIRECT_URI)) {
             
             	Bundle values = Util.parseUrl(url);
                 String error = values.getString("error");
@@ -136,15 +137,15 @@ public class Cocoafish2Dialog extends Dialog {
                 } else if (error.equals("access_denied") || error.equals("OAuthAccessDeniedException")) {
                     listener.onCancel();
                 } else {
-                    listener.onCocoafish2Error(new Cocoafish2Error(error));
+                    listener.onCocoafishError(new CocoafishError(error));
                 }
 
-                Cocoafish2Dialog.this.dismiss();
+                CocoafishDialog.this.dismiss();
                 return true;
 
-            } else if (url.startsWith(Cocoafish2.CANCEL_URI)) {
+            } else if (url.startsWith(Cocoafish.CANCEL_URI)) {
                 listener.onCancel();
-                Cocoafish2Dialog.this.dismiss();
+                CocoafishDialog.this.dismiss();
                 return true;
             } 
             
@@ -157,7 +158,7 @@ public class Cocoafish2Dialog extends Dialog {
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
             listener.onError(new DialogError(description, errorCode, failingUrl));
-            Cocoafish2Dialog.this.dismiss();
+            CocoafishDialog.this.dismiss();
         }
 
         @Override
