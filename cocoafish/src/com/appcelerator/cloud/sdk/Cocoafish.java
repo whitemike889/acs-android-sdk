@@ -16,6 +16,8 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.signature.AuthorizationHeaderSigningStrategy;
 import oauth.signpost.signature.HmacSha1MessageSigner;
+
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -77,6 +79,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.zip.GZIPInputStream;
 
 public class Cocoafish {
@@ -256,13 +259,6 @@ public class Cocoafish {
 				requestUrl.append("=");
 				requestUrl.append(this.accessToken);
 			}
-			//3-legged: while no app key, if request couldn't be signed oauth_key is required for app authentication
-			if (consumer == null) {
-				requestUrl.append("&");
-				requestUrl.append(CCConstants.OAUTH_KEY);
-				requestUrl.append("=");
-				requestUrl.append(this.oauthKey);
-			}
 		}
 
 		if (method == CCRequestMethod.GET || method == CCRequestMethod.DELETE) {
@@ -347,6 +343,32 @@ public class Cocoafish {
 			} catch (OAuthCommunicationException e) {
 				throw new CocoafishError(e.getLocalizedMessage());
 			}
+		} else {
+	    	if(this.threeLegged) {
+	    		OAuthConsumer tmpConsumer = new CommonsHttpOAuthConsumer(this.oauthKey, "12345678901234567890123456789012");
+	    		try {
+					tmpConsumer.sign(request);
+					Header authHeader = request.getFirstHeader("Authorization");
+					StringTokenizer st = new StringTokenizer(authHeader.getValue(), ",");
+					StringBuffer sb = new StringBuffer();
+					boolean first = true;
+					while(st.hasMoreElements()) {
+						String token = st.nextToken();
+						if(token.contains("oauth_signature") || token.contains("oauth_timestamp"))
+							continue;
+						if(first) {
+							first = false;
+						} else {
+							sb.append(",");
+						}
+						sb.append(token);
+					}
+					request.setHeader("Authorization", sb.toString());
+	    		} catch (Exception e) {
+					throw new CocoafishError(e.getLocalizedMessage());
+				} 
+	    	}
+
 		}
 
 		HttpContext localContext = new BasicHttpContext();

@@ -5,10 +5,9 @@ public class CCConstants {
 	public final static String HTTP_HEAD = "http://";
 	public final static String HTTPS_HEAD = "https://";
 	public final static String DEFAULT_HOSTNAME = "api.cloud.appcelerator.com/v1/";
-	public final static String DEFAULT_AUTH_HOST = "192.168.1.110:3001";
+	public final static String DEFAULT_AUTH_HOST = "192.168.1.113:3001";
 	public final static String KEY = "?key=";
 	public final static String ACCESS_TOKEN = "access_token";
-	public final static String OAUTH_KEY = "oauth_key";
 	public final static String ENCODING_UTF8 = "UTF-8";
 
 	// Cookies
