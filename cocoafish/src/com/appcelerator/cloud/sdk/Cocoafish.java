@@ -90,7 +90,7 @@ public class Cocoafish {
     public static final String ACCESS_TOKEN = "access_token";
     public static final String ACCESS_TOKEN_EXPIRES_IN = "expires_in";
     public static final String ACTION_LOGIN = "oauth";
-    public static final String ACTION_SINGUP = "signup";
+    public static final String ACTION_SIGNUP = "signup";
 
 	private String hostname = null;
     private String authHost = CCConstants.DEFAULT_AUTH_HOST;
@@ -103,6 +103,7 @@ public class Cocoafish {
 	private Context curApplicationContext = null;
 
     private String accessToken = null;
+    private String accessExpiresIn = null;
     private long accessExpires = 0;
     private DialogListener customDialogListener;
     private DlgCustomizer dlgCustomizer; 
@@ -280,7 +281,7 @@ public class Cocoafish {
 		try {
 			reqUri = new URL(requestUrl.toString()).toURI();
 		} catch (URISyntaxException e1) {
-			throw new CocoafishError("Internal error occured.");
+			throw new CocoafishError("Incorrect API host: " + e1.getLocalizedMessage());
 		}
 
 		HttpUriRequest request = null;
@@ -548,6 +549,8 @@ public class Cocoafish {
     public void authorize(Activity activity, String action, String[] permissions, final DialogListener listener, boolean useSecure) throws CocoafishError {
     	if(!this.threeLegged)
     		throw new CocoafishError("Cocoafish.authorize should be used with 3-legged OAuth only");
+    	if(this.oauthKey == null)
+    		throw new CocoafishError("OAuth consumer key isn't set.");
     	customDialogListener = listener;
         startDialogAuth(activity, action, permissions, useSecure);
     }
@@ -587,17 +590,17 @@ public class Cocoafish {
             }
 
             public void onError(DialogError error) {
-                Log.d(method, "Login failed: " + error);
+                Log.d(method, "Dialog onError: " + error);
                 customDialogListener.onError(error);
             }
 
             public void onCocoafishError(CocoafishError error) {
-                Log.d(method, "Login failed: " + error);
+                Log.d(method, "Dialog onCocoafishError: " + error);
                 customDialogListener.onCocoafishError(error);
             }
 
             public void onCancel() {
-                Log.d(method, "Login canceled");
+                Log.d(method, "Dialog onCancel");
                 customDialogListener.onCancel();
             }
         }, useSecure);
@@ -707,8 +710,11 @@ public class Cocoafish {
         if(ACTION_LOGIN.equals(action)) {
 	    	endpoint.append("/oauth/authorize");
 	        parameters.putString("response_type", "token");
-		} else {
+		} else if(ACTION_SIGNUP.equals(action)) {
 			endpoint.append("/users/sign_up");
+		} else {
+			listener.onCocoafishError(new CocoafishError("Action not supported: " + action));
+			return;
 		}
 
         if (isSessionValid()) {
@@ -727,10 +733,9 @@ public class Cocoafish {
      * @return boolean - whether this object has an non-expired session token
      */
     public boolean isSessionValid() {
-//        return (getAccessToken() != null) &&
-//                ((getAccessExpires() == 0) ||
-//                        (System.currentTimeMillis() < getAccessExpires()));
-    	return (getAccessToken() != null);
+        return (getAccessToken() != null) &&
+                ((getAccessExpires() == 0) ||
+                        (System.currentTimeMillis() < getAccessExpires()));
     }
 
 	
@@ -759,7 +764,6 @@ public class Cocoafish {
     /**
      * Retrieve the OAuth 2.0 access token for API access: treat with care.
      * Returns null if no session exists.
-     *
      * @return String - access token
      */
     public String getAccessToken() {
@@ -769,7 +773,6 @@ public class Cocoafish {
     /**
      * Retrieve the current session's expiration time (in milliseconds since
      * Unix epoch), or 0 if the session doesn't expire or doesn't exist.
-     *
      * @return long - session expiration time
      */
     public long getAccessExpires() {
@@ -778,7 +781,6 @@ public class Cocoafish {
 
     /**
      * Set the OAuth 2.0 access token for API access.
-     *
      * @param token - access token
      */
     public void setAccessToken(String token) {
@@ -788,7 +790,6 @@ public class Cocoafish {
     /**
      * Set the current session's expiration time (in milliseconds since Unix
      * epoch), or 0 if the session doesn't expire.
-     *
      * @param time - timestamp in milliseconds
      */
     public void setAccessExpires(long time) {
@@ -796,14 +797,22 @@ public class Cocoafish {
     }
 
     /**
-     * Set the current session's duration (in seconds since Unix epoch).
-     *
+     * Set the current session's duration (in seconds since issued).
      * @param expiresIn - duration in seconds
      */
     public void setAccessExpiresIn(String expiresIn) {
         if (expiresIn != null && !expiresIn.equals("0")) {
+        	this.accessExpiresIn = expiresIn;
             setAccessExpires(System.currentTimeMillis() + Integer.parseInt(expiresIn) * 1000);
         }
+    }
+    
+    /**
+     * Get the current session's duration (in seconds since issued).
+     * @return duration in seconds
+     */
+    public String getAccessExpiresIn() {
+    	return this.accessExpiresIn;
     }
 
 
