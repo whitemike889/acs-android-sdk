@@ -703,6 +703,10 @@ public class Cocoafish {
 			endpoint = new StringBuffer(CCConstants.HTTP_HEAD);
 		}
 		
+		if(this.authHost == null || this.authHost.length() == 0) {
+			listener.onCocoafishError(new CocoafishError("Authorization Server isn't set."));
+			return;
+		}
     	endpoint.append(this.authHost);
         parameters.putString("client_id", this.oauthKey);
         parameters.putString("redirect_uri", REDIRECT_URI);
@@ -722,6 +726,18 @@ public class Cocoafish {
         }
         endpoint.append("?");
         endpoint.append(Util.encodeUrl(parameters));
+        
+		URI reqUri;
+		try {
+			reqUri = new URL(endpoint.toString()).toURI();
+		} catch (MalformedURLException e1) {
+			listener.onCocoafishError(new CocoafishError("Incorrect Auth Host: " + e1.getLocalizedMessage()));
+			return;
+		} catch (URISyntaxException e2) {
+			listener.onCocoafishError(new CocoafishError("Incorrect Auth Host: " + e2.getLocalizedMessage()));
+			return;
+		}
+        
         if (context.checkCallingOrSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
             Util.showAlert(context, "Error", "Application requires permission to access the Internet");
         } else {
