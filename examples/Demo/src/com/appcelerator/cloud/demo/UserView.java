@@ -218,7 +218,7 @@ public class UserView extends Activity {
     protected void performACSSignUp() {
 		Toast.makeText(UserView.this, "Signing Up", Toast.LENGTH_SHORT).show();
 		try {
-			sdk.authorize(UserView.this, Cocoafish.ACTION_SINGUP, new LoginDialogListener());
+			sdk.authorize(UserView.this, Cocoafish.ACTION_SIGNUP, new LoginDialogListener());
 		} catch (CocoafishError e) {
 			Toast.makeText( UserView.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
