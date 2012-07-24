@@ -157,8 +157,10 @@ public class Cocoafish {
 		this.threeLegged = threeLegged;
 		//if using 3-legged OAuth the passed in 'key' should be OAuth key
 		//this happens when consumerSecret isn't provided
-		if(threeLegged && this.oauthKey == null)
+		if(threeLegged && this.oauthKey == null) {
 			this.oauthKey = this.appKey;
+			this.appKey = null;
+		}
 	}
 	
 	public boolean isThreeLegged() {
@@ -243,10 +245,10 @@ public class Cocoafish {
 		}
 		requestUrl.append(url);
 
-		if (appKey != null && consumer == null) {
+		if (appKey != null && consumer == null && !threeLegged) {
 			requestUrl.append(CCConstants.KEY);
 			requestUrl.append(appKey);
-		}
+		} 
 		
 		if(this.threeLegged) {
 			if (this.accessToken != null) {
