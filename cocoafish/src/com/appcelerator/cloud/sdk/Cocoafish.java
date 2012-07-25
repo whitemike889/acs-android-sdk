@@ -103,7 +103,7 @@ public class Cocoafish {
 	private Context curApplicationContext = null;
 
     private String accessToken = null;
-    private String accessExpiresIn = null;
+    private int accessExpiresIn = 0;
     private long accessExpires = 0;
     private DialogListener customDialogListener;
     private DlgCustomizer dlgCustomizer; 
@@ -573,7 +573,7 @@ public class Cocoafish {
                 // ensure any cookies set by the dialog are saved
                 CookieSyncManager.getInstance().sync();
                 setAccessToken(values.getString(ACCESS_TOKEN));
-                setAccessExpiresIn(values.getString(ACCESS_TOKEN_EXPIRES_IN));
+                setAccessExpiresIn(Integer.parseInt(values.getString(ACCESS_TOKEN_EXPIRES_IN)));
                 if (isSessionValid()) {
                     Log.d(method, "Login Success! access_token=" + getAccessToken() + " expires=" + getAccessExpires());
                     //made a call to get user information to satisfy Cocoafish
@@ -675,7 +675,7 @@ public class Cocoafish {
             this.clearSessionInfo();
             setAccessToken(null);
             setAccessExpires(0);
-            setAccessExpiresIn("");
+            setAccessExpiresIn(0);
             String response;
 			try {
 				response = request(endpoint.toString(), parameters, "GET");
@@ -821,10 +821,10 @@ public class Cocoafish {
      * Set the current session's duration (in seconds since issued).
      * @param expiresIn - duration in seconds
      */
-    public void setAccessExpiresIn(String expiresIn) {
-        if (expiresIn != null && !expiresIn.equals("0")) {
+    public void setAccessExpiresIn(int expiresIn) {
+        if (expiresIn != 0) {
         	this.accessExpiresIn = expiresIn;
-            setAccessExpires(System.currentTimeMillis() + Integer.parseInt(expiresIn) * 1000);
+            setAccessExpires(System.currentTimeMillis() + expiresIn * 1000);
         }
     }
     
@@ -832,7 +832,7 @@ public class Cocoafish {
      * Get the current session's duration (in seconds since issued).
      * @return duration in seconds
      */
-    public String getAccessExpiresIn() {
+    public int getAccessExpiresIn() {
     	return this.accessExpiresIn;
     }
 
