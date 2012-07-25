@@ -551,11 +551,13 @@ public class Cocoafish {
     		throw new CocoafishError("Cocoafish.authorize should be used with 3-legged OAuth only");
     	if(this.oauthKey == null)
     		throw new CocoafishError("OAuth consumer key isn't set.");
+    	if(activity == null)
+    		throw new CocoafishError("Parameter activity can not be null.");
     	customDialogListener = listener;
         startDialogAuth(activity, action, permissions, useSecure);
     }
     
-	private void startDialogAuth(Activity activity, String action, String[] permissions, boolean useSecure) {
+	private void startDialogAuth(Activity activity, String action, String[] permissions, boolean useSecure) throws CocoafishError {
 		final String method = "Cocoafish.startDialogAuth";
 		
         Bundle params = new Bundle();
@@ -580,28 +582,33 @@ public class Cocoafish {
 						updateSessionInfo2(response);
 					} catch (Throwable e) {
 						Log.d(method, "Failed to get user information: " + e.getMessage());
-						customDialogListener.onCocoafishError(new CocoafishError(e.getLocalizedMessage()));
+						if (customDialogListener != null)
+							customDialogListener.onCocoafishError(new CocoafishError(e.getLocalizedMessage()));
 					} 
-
-                    customDialogListener.onComplete(values);
+					if (customDialogListener != null)
+						customDialogListener.onComplete(values);
                 } else {
-                	customDialogListener.onCocoafishError(new CocoafishError("Failed to receive access token."));
+					if (customDialogListener != null)
+						customDialogListener.onCocoafishError(new CocoafishError("Failed to receive access token."));
                 }
             }
 
             public void onError(DialogError error) {
                 Log.d(method, "Dialog onError: " + error);
-                customDialogListener.onError(error);
+				if (customDialogListener != null)
+					customDialogListener.onError(error);
             }
 
             public void onCocoafishError(CocoafishError error) {
                 Log.d(method, "Dialog onCocoafishError: " + error);
-                customDialogListener.onCocoafishError(error);
+				if (customDialogListener != null)
+					customDialogListener.onCocoafishError(error);
             }
 
             public void onCancel() {
                 Log.d(method, "Dialog onCancel");
-                customDialogListener.onCancel();
+				if (customDialogListener != null)
+					customDialogListener.onCancel();
             }
         }, useSecure);
     }
@@ -643,7 +650,9 @@ public class Cocoafish {
 
     	if(!this.threeLegged)
     		throw new CocoafishError("Cocoafish.logout should be used with 3-legged OAuth only");
-
+    	if(context == null)
+    		throw new CocoafishError("Parameter context can not be null.");
+    	
     	StringBuffer endpoint = null;
 		if (useSecure) {
 			endpoint = new StringBuffer(CCConstants.HTTPS_HEAD);
@@ -683,7 +692,7 @@ public class Cocoafish {
         return Util.openUrl(url, httpMethod, params);
     }
 
-    public void dialog(Context context, String action, DialogListener listener, boolean useSecure) {
+    public void dialog(Context context, String action, DialogListener listener, boolean useSecure) throws CocoafishError {
         dialog(context, action, new Bundle(), listener, useSecure);
     }
 
@@ -693,8 +702,9 @@ public class Cocoafish {
      * @param action
      * @param parameters
      * @param listener
+     * @throws CocoafishError 
      */
-    public void dialog(Context context, String action, Bundle parameters, final DialogListener listener, boolean useSecure) {
+    public void dialog(Context context, String action, Bundle parameters, final DialogListener listener, boolean useSecure) throws CocoafishError {
 
     	StringBuffer endpoint = null;
 		if (useSecure) {
@@ -717,8 +727,7 @@ public class Cocoafish {
 		} else if(ACTION_SIGNUP.equals(action)) {
 			endpoint.append("/users/sign_up");
 		} else {
-			listener.onCocoafishError(new CocoafishError("Action not supported: " + action));
-			return;
+			throw new CocoafishError("Action not supported: " + action);
 		}
 
         if (isSessionValid()) {
@@ -727,15 +736,12 @@ public class Cocoafish {
         endpoint.append("?");
         endpoint.append(Util.encodeUrl(parameters));
         
-		URI reqUri;
 		try {
-			reqUri = new URL(endpoint.toString()).toURI();
+			URI reqUri = new URL(endpoint.toString()).toURI();
 		} catch (MalformedURLException e1) {
-			listener.onCocoafishError(new CocoafishError("Incorrect Auth Host: " + e1.getLocalizedMessage()));
-			return;
+			throw new CocoafishError("Incorrect Auth Host: " + e1.getLocalizedMessage());
 		} catch (URISyntaxException e2) {
-			listener.onCocoafishError(new CocoafishError("Incorrect Auth Host: " + e2.getLocalizedMessage()));
-			return;
+			throw new CocoafishError("Incorrect Auth Host: " + e2.getLocalizedMessage());
 		}
         
         if (context.checkCallingOrSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
