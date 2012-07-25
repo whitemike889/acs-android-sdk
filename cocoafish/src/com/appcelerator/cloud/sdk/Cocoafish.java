@@ -665,18 +665,17 @@ public class Cocoafish {
         if (isSessionValid()) {
             parameters.putString(ACCESS_TOKEN, getAccessToken());
         } else {
-			Toast.makeText( context, "session invalid: no access token", Toast.LENGTH_SHORT).show();
-			return null;
+			throw new CocoafishError("session invalid: no access token");
         }
         
         //String url = endpoint + "?" + Util.encodeUrl(parameters);
         if (context.checkCallingOrSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-            Util.showAlert(context, "Error", "Application requires permission to access the Internet");
-            return null;
+            throw new CocoafishError("Application requires permission to access the Internet");
         } else {
             this.clearSessionInfo();
             setAccessToken(null);
             setAccessExpires(0);
+            setAccessExpiresIn("");
             String response;
 			try {
 				response = request(endpoint.toString(), parameters, "GET");
