@@ -180,38 +180,13 @@ public class UserView extends Activity {
     
     protected void performAuthorization() {
 
-    	if( !sdk.isSessionValid() ) {
-			Toast.makeText(UserView.this, "Authorizing", Toast.LENGTH_SHORT).show();
-			try {
-				sdk.authorize(UserView.this, Cocoafish.ACTION_LOGIN, new LoginDialogListener(), false);
-			} catch (CocoafishError e) {
-				Toast.makeText( UserView.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-			}
-		} else {
-			Toast.makeText( UserView.this, "Has valid session", Toast.LENGTH_SHORT).show();
-			
-			CCResponse result = null;
-			String errorMsg = null;
-			
-			try {
-				result = sdk.sendRequest("users/show/me.json", CCRequestMethod.GET, null, false);
-				JSONObject resJson = result.getResponseData();
-				if (resJson != null)
-					Toast.makeText(UserView.this, resJson.toString(), Toast.LENGTH_SHORT).show();
-				else 
-					Toast.makeText(UserView.this, "null response data", Toast.LENGTH_SHORT).show();
-				
-				showUserView();
-				
-			} catch (CocoafishError e) {
-				errorMsg = e.getLocalizedMessage();
-    			Toast.makeText( UserView.this, errorMsg, Toast.LENGTH_SHORT).show();
-			} catch (IOException e) {
-				errorMsg = e.getLocalizedMessage();
-    			Toast.makeText( UserView.this, errorMsg, Toast.LENGTH_SHORT).show();
-			}
-			
+		Toast.makeText(UserView.this, "Authorizing", Toast.LENGTH_SHORT).show();
+		try {
+			sdk.authorize(UserView.this, Cocoafish.ACTION_LOGIN, new LoginDialogListener(), false);
+		} catch (CocoafishError e) {
+			Toast.makeText( UserView.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
+
     }
     
     
