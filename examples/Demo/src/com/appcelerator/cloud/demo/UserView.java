@@ -124,11 +124,7 @@ public class UserView extends Activity {
     protected void performLogout() {
     	
 	    try {
-			if (sdk.isThreeLegged() && sdk.getAccessToken() != null) {
-				sdk.logout(UserView.this, false);
-	    	} else {
-	    		sdk.sendRequest("users/logout.json", CCRequestMethod.GET, null, false);
-	    	}
+	    	sdk.sendRequest("users/logout.json", CCRequestMethod.GET, null, false);
 		} catch (CocoafishError e) {
 			e.printStackTrace();
 		} catch (IOException e) {
