@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Appcelerator Push Demo</string>
-    <string name="company_label">Cocoafish</string>
+    <string name="company_label">Appcelerator</string>
     <string name="push_type_label">Push Type</string>
     <string name="device_token_label">Device Token:</string>
     <string name="register_mqtt_service">Register MQTT Service</string>

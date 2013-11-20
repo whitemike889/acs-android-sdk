@@ -30,8 +30,8 @@ import com.appcelerator.cloud.sdk.CCMeta;
 import com.appcelerator.cloud.sdk.CCRequestMethod;
 import com.appcelerator.cloud.sdk.CCResponse;
 import com.appcelerator.cloud.sdk.CCUser;
-import com.appcelerator.cloud.sdk.Cocoafish;
-import com.appcelerator.cloud.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.ACSClient;
+import com.appcelerator.cloud.sdk.ACSClientError;
 import com.appcelerator.cloud.sdk.oauth2.DialogError;
 import com.appcelerator.cloud.sdk.oauth2.DialogListener;
 
@@ -39,7 +39,7 @@ public class UserView extends Activity {
 
     static final int LAUNCH_SIGNUP = 0;
 //    List<CCResponse> listOfCheckin;
-    private Cocoafish sdk;
+    private ACSClient sdk;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,10 +90,10 @@ public class UserView extends Activity {
 	    	CCResponse response = sdk.sendRequest("users/login.json", CCRequestMethod.POST, dataMap, false);
 	    	CCMeta meta = response.getMeta();
 	    	if( meta.getCode() != CCConstants.SUCCESS_CODE )
-	    			throw new CocoafishError(meta.getMessage());
+	    			throw new ACSClientError(meta.getMessage());
 	    	
 	    	showUserView();
-		} catch (CocoafishError e) {
+		} catch (ACSClientError e) {
 			errorMsg = e.getMessage();
     	} catch (IOException e) {
 			errorMsg = e.getMessage();
@@ -125,7 +125,7 @@ public class UserView extends Activity {
     	
 	    try {
 	    	sdk.sendRequest("users/logout.json", CCRequestMethod.GET, null, false);
-		} catch (CocoafishError e) {
+		} catch (ACSClientError e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -178,8 +178,8 @@ public class UserView extends Activity {
 
 		Toast.makeText(UserView.this, "Authorizing", Toast.LENGTH_SHORT).show();
 		try {
-			sdk.authorize(UserView.this, Cocoafish.ACTION_LOGIN, new LoginDialogListener(), false);
-		} catch (CocoafishError e) {
+			sdk.authorize(UserView.this, ACSClient.ACTION_LOGIN, new LoginDialogListener(), false);
+		} catch (ACSClientError e) {
 			Toast.makeText( UserView.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 
@@ -189,8 +189,8 @@ public class UserView extends Activity {
     protected void performACSSignUp() {
 		Toast.makeText(UserView.this, "Signing Up", Toast.LENGTH_SHORT).show();
 		try {
-			sdk.authorize(UserView.this, Cocoafish.ACTION_SIGNUP, new LoginDialogListener());
-		} catch (CocoafishError e) {
+			sdk.authorize(UserView.this, ACSClient.ACTION_SIGNUP, new LoginDialogListener());
+		} catch (ACSClientError e) {
 			Toast.makeText( UserView.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
     }
@@ -287,7 +287,7 @@ public class UserView extends Activity {
 						checkinsList.add(checkins.getJSONObject(i) );
 				  } catch (JSONException e) { }
 				}
-			} catch (CocoafishError e) {
+			} catch (ACSClientError e) {
 				errorMsg = e.getLocalizedMessage();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -307,7 +307,7 @@ public class UserView extends Activity {
 			CCResponse result = null;
 			String errorMsg = null;
 			try {
-				//The user has logged in, so now you can query and use their cocoafish info
+				//The user has logged in, so now you can query and use their ACSClient info
 				result = sdk.sendRequest("users/show/me.json", CCRequestMethod.GET, null, false);
 				JSONObject resJson = result.getResponseData();
     			Toast.makeText( UserView.this, resJson.toString(), Toast.LENGTH_SHORT).show();
@@ -319,15 +319,15 @@ public class UserView extends Activity {
 				
 				showUserView();
 				
-			} catch( CocoafishError error ) {
+			} catch( ACSClientError error ) {
 				Toast.makeText( UserView.this, error.toString(), Toast.LENGTH_SHORT).show();
 			} catch( Exception error ) {
 				Toast.makeText( UserView.this, error.toString(), Toast.LENGTH_SHORT).show();
 			}
 		}
 		
-		public void onCocoafishError(CocoafishError error) {
-			Toast.makeText( UserView.this, "CocoafishError: " + error.toString(), Toast.LENGTH_LONG).show();
+		public void onACSClientError(ACSClientError error) {
+			Toast.makeText( UserView.this, "ACSClientError: " + error.toString(), Toast.LENGTH_LONG).show();
 			//Toast.makeText( Connect.this, "Something went wrong. Please try again.", Toast.LENGTH_LONG).show();
 		}
 		
