@@ -10,7 +10,7 @@ Setup your environment
 
 1. Pull the repository from GitHub:
 
-    git clone git://github.com/cocoafish/acs-android-sdk.git
+    git clone git@github.com:appcelerator/acs-android-sdk.git
 
 2. If you have not already done so, follow the (http://developer.android.com/sdk/index.html)[Android SDK Getting Started Guide]. You will need the device emulator and debugging tools.
 
