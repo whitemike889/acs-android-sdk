@@ -18,8 +18,8 @@ import org.json.JSONObject;
 
 import com.appcelerator.cloud.sdk.CCRequestMethod;
 import com.appcelerator.cloud.sdk.CCResponse;
-import com.appcelerator.cloud.sdk.Cocoafish;
-import com.appcelerator.cloud.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.ACSClient;
+import com.appcelerator.cloud.sdk.ACSClientError;
 
 public class TestDriver {
 	public static final String APP_ID = "8ivA6UgS8l29suqphNAJYT58V9NPwwZr";
@@ -70,10 +70,10 @@ public class TestDriver {
 	}
 	
 	public TestDriver(){
-		sdk = new Cocoafish(APP_ID);
+		sdk = new ACSClient(APP_ID);
 	}
 	
-	public TestDriver(Cocoafish fish){
+	public TestDriver(ACSClient fish){
 		sdk = fish;
 	}
 	
@@ -96,7 +96,7 @@ public class TestDriver {
 		try {
 			CCResponse response = sdk.sendRequest( URL_LOGIN_USER, CCRequestMethod.POST, dataMap);
 			System.out.println(response);
-		} catch (CocoafishError e) {
+		} catch (ACSClientError e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class TestDriver {
 	public void logoutUser(){
 		try {
 			CCResponse response = sdk.sendRequest( URL_LOGOUT_USER, CCRequestMethod.GET, null, isSecure);
-		} catch (CocoafishError e) {
+		} catch (ACSClientError e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,7 +119,7 @@ public class TestDriver {
 		dataMap.put(USER_LASTNAME, "Dong_updated_09130918");
 		try {
 			CCResponse response = sdk.sendRequest( URL_UPDATE_USER, CCRequestMethod.PUT, dataMap, isSecure);
-		}  catch (CocoafishError e) {
+		}  catch (ACSClientError e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -143,7 +143,7 @@ public class TestDriver {
 		}
 		try {
 			CCResponse response = sdk.sendRequest( URL_CREATE_USER, CCRequestMethod.POST, dataMap, isSecure);
-		} catch (CocoafishError e) {
+		} catch (ACSClientError e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -155,7 +155,7 @@ public class TestDriver {
 		dataMap.put(PER_PAGE, "3");
 		try {
 			CCResponse response = sdk.sendRequest( URL_SEARCH_PLACES, CCRequestMethod.GET, dataMap, isSecure);
-		}  catch (CocoafishError e) {
+		}  catch (ACSClientError e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -169,7 +169,7 @@ public class TestDriver {
 		dataMap.put(CITY, "San Francisco");
 		try {
 			CCResponse response = sdk.sendRequest( URL_CREATE_PLACE, CCRequestMethod.POST, dataMap, isSecure);
-		}  catch (CocoafishError e) {
+		}  catch (ACSClientError e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -181,13 +181,13 @@ public class TestDriver {
 		dataMap.put(PLACE_ID, "4e6ecbd36f70954271000f00");
 		try {
 			CCResponse response = sdk.sendRequest( URL_DELETE_PLACE, CCRequestMethod.DELETE, dataMap, isSecure);
-		}  catch (CocoafishError e) {
+		}  catch (ACSClientError e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private Cocoafish sdk;
+	private ACSClient sdk;
 	private boolean isSecure = false;
 }

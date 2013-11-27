@@ -11,8 +11,8 @@ import com.appcelerator.cloud.push.PushServiceException;
 import com.appcelerator.cloud.sdk.CCMeta;
 import com.appcelerator.cloud.sdk.CCRequestMethod;
 import com.appcelerator.cloud.sdk.CCResponse;
-import com.appcelerator.cloud.sdk.Cocoafish;
-import com.appcelerator.cloud.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.ACSClient;
+import com.appcelerator.cloud.sdk.ACSClientError;
 
 import android.content.Context;
 import android.util.Log;
@@ -36,8 +36,8 @@ public class PushNotificationsManager{
 		CCPushService.getInstance().stopService(context);
 	}
 	
-	public static boolean subscribePushNotifications(Cocoafish sdk, String deviceToken, String channel) throws IOException,
-			CocoafishError, JSONException {
+	public static boolean subscribePushNotifications(ACSClient sdk, String deviceToken, String channel) throws IOException,
+			ACSClientError, JSONException {
 		String type = "android";
 
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -49,11 +49,11 @@ public class PushNotificationsManager{
 		if ("ok".equals(meta.getStatus()) && meta.getCode() == 200 && "SubscribeNotification".equals(meta.getMethod())) {
 			return true;
 		}
-		throw new CocoafishError("SubscribeNotification failed. Error Message:" + meta.getMessage());
+		throw new ACSClientError("SubscribeNotification failed. Error Message:" + meta.getMessage());
 	}
 	
-	public static boolean unsubscribePushNotifications(Cocoafish sdk, String deviceToken, String channel) throws IOException,
-			CocoafishError, JSONException {
+	public static boolean unsubscribePushNotifications(ACSClient sdk, String deviceToken, String channel) throws IOException,
+			ACSClientError, JSONException {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("device_token", deviceToken);
 		data.put("channel", channel);
@@ -62,10 +62,10 @@ public class PushNotificationsManager{
 		if ("ok".equals(meta.getStatus()) && meta.getCode() == 200 && "UnsubscribeNotification".equals(meta.getMethod())) {
 			return true;
 		}
-		throw new CocoafishError("UnsubscribeNotification failed. Error Message:" + meta.getMessage());
+		throw new ACSClientError("UnsubscribeNotification failed. Error Message:" + meta.getMessage());
 	}
 	
-	public static boolean loggedIn(Cocoafish sdk) throws IOException, CocoafishError, JSONException {
+	public static boolean loggedIn(ACSClient sdk) throws IOException, ACSClientError, JSONException {
 		CCResponse response = sdk.sendRequest("users/show/me.json", CCRequestMethod.GET, null, false);
 		CCMeta meta = response.getMeta();
 		if ("ok".equals(meta.getStatus()) && meta.getCode() == 200 && "showMe".equals(meta.getMethod())) {
@@ -74,7 +74,7 @@ public class PushNotificationsManager{
 		return false;
 	}
 	
-	public static boolean loginUser(Cocoafish sdk, String username, String password) throws IOException, CocoafishError,
+	public static boolean loginUser(ACSClient sdk, String username, String password) throws IOException, ACSClientError,
 			JSONException {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("login", username);
@@ -85,16 +85,16 @@ public class PushNotificationsManager{
 		if ("ok".equals(meta.getStatus()) && meta.getCode() == 200 && "loginUser".equals(meta.getMethod())) {
 			return true;
 		}
-		throw new CocoafishError("User login failed. Error Message:" + meta.getMessage());
+		throw new ACSClientError("User login failed. Error Message:" + meta.getMessage());
 	}
 	
-	public static boolean logoutUser(Cocoafish sdk) throws IOException, CocoafishError, JSONException {
+	public static boolean logoutUser(ACSClient sdk) throws IOException, ACSClientError, JSONException {
 		CCResponse response = sdk.sendRequest("users/logout.json", CCRequestMethod.GET, null, false);
 		CCMeta meta = response.getMeta();
 		if ("ok".equals(meta.getStatus()) && meta.getCode() == 200 && "logoutUser".equals(meta.getMethod())) {
 			return true;
 		}
 
-		throw new CocoafishError("User logout failed. Error Message:" + meta.getMessage());
+		throw new ACSClientError("User logout failed. Error Message:" + meta.getMessage());
 	}
 }

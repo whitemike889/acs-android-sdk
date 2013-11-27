@@ -19,7 +19,7 @@ import com.appcelerator.cloud.push.PushType;
 public class PushActivity extends Activity {
 	public final static String LOG_TAG = PushActivity.class.getName();
 	// TODO Update this line to your app_key
-	public final static String APP_KEY = "<Your App Key>";
+	public final static String APP_KEY = "your app key";
 
 	private String mDeviceID;
 	private Handler activityHandler = new Handler();
@@ -31,8 +31,7 @@ public class PushActivity extends Activity {
 		setContentView(R.layout.main);
 		
 		//TODO Switch Push type to MQTT mode instead of default GCM mode
-		// CCPushService.getInstance().setPushType(getBaseContext(), PushType.MQTT);
-		
+		//CCPushService.getInstance().setPushType(getBaseContext(), PushType.MQTT);
 		
 		final Button registerMQTTButton = ((Button) findViewById(R.id.register_mqtt_button));
 		final Button startMQTTButton = ((Button) findViewById(R.id.start_mqtt_button));

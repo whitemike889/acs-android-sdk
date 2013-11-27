@@ -29,8 +29,8 @@ import android.widget.TextView;
 
 import com.appcelerator.cloud.sdk.CCRequestMethod;
 import com.appcelerator.cloud.sdk.CCResponse;
-import com.appcelerator.cloud.sdk.Cocoafish;
-import com.appcelerator.cloud.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.ACSClient;
+import com.appcelerator.cloud.sdk.ACSClientError;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
@@ -44,7 +44,7 @@ public class Explore extends MapActivity {
 	private List<JSONObject> places;
 	private SitesOverlay overlay;
 	private BaloonLayout noteBaloon;
-	private Cocoafish sdk;
+	private ACSClient sdk;
     
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -240,7 +240,7 @@ public class Explore extends MapActivity {
 				for( int i = 0 ; i < array.length() ; i++ ){
 					places.add( array.getJSONObject(i) );
 				}
-			} catch (CocoafishError e) {
+			} catch (ACSClientError e) {
 				errorMsg = "Failed to get places: " + e.getLocalizedMessage();
 			} catch (Exception e) {
 				errorMsg = "Failed to get places: " + e.getMessage();

@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.appcelerator.cloud.sdk.CCRequestMethod;
-import com.appcelerator.cloud.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.ACSClientError;
 
 
 public class SignUp extends Activity {
@@ -61,12 +61,12 @@ public class SignUp extends Activity {
 			dataMap.put("last_name", lastName);
 			DemoApplication.getSdk().sendRequest("users/create.json", CCRequestMethod.POST, dataMap, false);
 	    	/*CCRestfulRequest signupRequest;
-	    	signupRequest = new CCRestfulRequest(Cocoafish.getDefaultInstance());
+	    	signupRequest = new CCRestfulRequest(ACSClient.getDefaultInstance());
 	    	signupRequest.registerUser(email, "", firstName, lastName, password);*/
 	    	Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();
-		} catch (CocoafishError e) {
+		} catch (ACSClientError e) {
 			errorMsg = e.getMessage();
 			
 		} catch (IOException e) {

@@ -24,8 +24,8 @@ import android.widget.TextView;
 import com.appcelerator.cloud.sdk.CCMeta;
 import com.appcelerator.cloud.sdk.CCRequestMethod;
 import com.appcelerator.cloud.sdk.CCResponse;
-import com.appcelerator.cloud.sdk.Cocoafish;
-import com.appcelerator.cloud.sdk.CocoafishError;
+import com.appcelerator.cloud.sdk.ACSClient;
+import com.appcelerator.cloud.sdk.ACSClientError;
 
 public class PlaceView extends Activity {
 
@@ -87,7 +87,7 @@ public class PlaceView extends Activity {
     	JSONObject checkin = null;
     	String errorMsg = null;
     	try {
-    		Cocoafish sdk = DemoApplication.getSdk();
+    		ACSClient sdk = DemoApplication.getSdk();
     		Map<String, Object> data = new HashMap<String, Object>();
 			try {
 				data.put("place_id", place.getString("id") );
@@ -115,7 +115,7 @@ public class PlaceView extends Activity {
     			errorMsg = meta.getMessage();
     		}
 
-		} catch (CocoafishError e) {
+		} catch (ACSClientError e) {
 			errorMsg = e.getMessage();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -183,7 +183,7 @@ public class PlaceView extends Activity {
 		protected List<JSONObject> doInBackground(Void...params) {
 			List<JSONObject> checkins = new ArrayList<JSONObject>();
 			try {
-				Cocoafish sdk = DemoApplication.getSdk();
+				ACSClient sdk = DemoApplication.getSdk();
 				Map<String, Object> data = new HashMap<String, Object>();
 				data.put("place_id", place.getString("id"));
 				CCResponse response = sdk.sendRequest("checkins/search.json", CCRequestMethod.GET, data, false);
@@ -198,7 +198,7 @@ public class PlaceView extends Activity {
 				  }
 				  
 				}
-			} catch (CocoafishError e) {
+			} catch (ACSClientError e) {
 				e.printStackTrace();
 			} catch (JSONException e) {
 				e.printStackTrace();
