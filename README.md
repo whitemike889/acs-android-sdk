@@ -57,6 +57,6 @@ The easiest way to get started is to copy/hack up the sample applications (that'
 
 LICENSE
 ------
-This project is open source and provided under the Apache Public License (version 2). Please make sure you see the LICENSE file included in this distribution for more details on the license. Also, please take notice of the privacy notice at the end of the file.
+This project is open source and provided under the Apache Public License (version 2). Please make sure you see the LICENSE file included in this distribution for more details on the license.
 
 (C) Copyright 2012-2014, Appcelerator Inc. All Rights Reserved.
